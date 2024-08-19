@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dishies index{% endblock %}
+
+{% block body %}
+    <h1>Dishies index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Price</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Picture</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dishy in dishies %}
+            <tr>
+                <td>{{ dishy.id }}</td>
+                <td>{{ dishy.price }}</td>
+                <td>{{ dishy.title }}</td>
+                <td>{{ dishy.description }}</td>
+                <td><img width=200px src="{{ dishy.picture }}" alt=""></td>
+                <td>
+                    <a href="{{ path('app_dishies_show', {'id': dishy.id}) }}">show</a>
+                    <a href="{{ path('app_dishies_edit', {'id': dishy.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dishies_new') }}">Create new</a>
+{% endblock %}
