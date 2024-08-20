@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Menu;
 use App\Form\MenuType;
 use App\Repository\MenuRepository;
-use App\Repository\DishiesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class MenuController extends AbstractController
 {
     #[Route('/', name: 'app_menu_index', methods: ['GET'])]
-    public function index(MenuRepository $menuRepository, DishiesRepository $dishiesRepository): Response
+    public function index(MenuRepository $menuRepository): Response
     {
         $menus = $menuRepository->findAll();
 
@@ -38,7 +37,6 @@ class MenuController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // dd($menu->getDishies());
 
             $entityManager->persist($menu);
             $entityManager->flush();
