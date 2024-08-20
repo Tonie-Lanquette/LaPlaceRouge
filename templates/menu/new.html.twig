@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Menu{% endblock %}
+
+{% block body %}
+    <h1 class='text-center text-4xl my-10'>Ajouter un menu</h1>
+
+    <a href="{{ path('app_menu_index') }}" class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'>back to list</a>
+
+    {{ include('menu/_form.html.twig') }}
+   
+
+{% endblock %}
