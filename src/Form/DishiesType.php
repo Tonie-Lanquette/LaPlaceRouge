@@ -14,13 +14,22 @@ class DishiesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('price')
-            ->add('title')
-            ->add('description')
-            ->add('picture')
+            ->add('price', null, [
+                'label' => 'Prix :'
+            ])
+            ->add('title', null, [
+                'label' => 'Nom :'
+            ])
+            ->add('description', null, [
+                'label' => 'Description :'
+            ])
+            ->add('picture', null, [
+                'label' => 'Image :'
+            ])
             ->add('categories', EntityType::class, [
                 'class' => categories::class,
                 'choice_label' => 'name',
+                'label' => 'Catégories :'
             ])
         ;
     }

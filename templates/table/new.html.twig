@@ -3,9 +3,9 @@
 {% block title %}New Table{% endblock %}
 
 {% block body %}
-    <h1>Create new Table</h1>
+    <h1 class='text-center text-4xl my-10'>Ajouter une table</h1>
 
+    <a href="{{ path('app_table_index') }}" class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'>Retourner à la liste</a>
+    
     {{ include('table/_form.html.twig') }}
-
-    <a href="{{ path('app_table_index') }}">back to list</a>
 {% endblock %}

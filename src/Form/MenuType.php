@@ -14,13 +14,18 @@ class MenuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('price')
+            ->add('name', null, [
+            'label' => 'Nom :'
+        ])
+            ->add('price', null, [
+            'label' => 'Prix :'
+        ])
             ->add('dishies', EntityType::class, [
                 'class' => Dishies::class,
                 'choice_label' => 'title',
                 'expanded' => true,
                 'multiple' => true,
+                'label' => 'Plats :'
             ])
         ;
     }

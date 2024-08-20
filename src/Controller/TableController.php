@@ -42,14 +42,6 @@ class TableController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_table_show', methods: ['GET'])]
-    public function show(Table $table): Response
-    {
-        return $this->render('table/show.html.twig', [
-            'table' => $table,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_table_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Table $table, EntityManagerInterface $entityManager): Response
     {

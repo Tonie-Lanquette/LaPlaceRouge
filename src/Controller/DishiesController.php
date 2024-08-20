@@ -42,14 +42,6 @@ class DishiesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_dishies_show', methods: ['GET'])]
-    public function show(Dishies $dishy): Response
-    {
-        return $this->render('dishies/show.html.twig', [
-            'dishy' => $dishy,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_dishies_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Dishies $dishy, EntityManagerInterface $entityManager): Response
     {
