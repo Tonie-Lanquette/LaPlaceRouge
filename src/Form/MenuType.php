@@ -25,7 +25,7 @@ class MenuType extends AbstractType
                 'choice_label' => 'title',
                 'expanded' => true,
                 'multiple' => true,
-                'label' => 'Plats :'
+                'label' => 'Plats :',
             ])
         ;
     }

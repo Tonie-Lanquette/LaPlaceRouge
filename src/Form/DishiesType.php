@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\categories;
+use App\Entity\Categories;
 use App\Entity\Dishies;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -27,7 +27,7 @@ class DishiesType extends AbstractType
                 'label' => 'Image :'
             ])
             ->add('categories', EntityType::class, [
-                'class' => categories::class,
+                'class' => Categories::class,
                 'choice_label' => 'name',
                 'label' => 'Catégories :'
             ])
