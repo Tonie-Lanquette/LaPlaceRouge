@@ -14,8 +14,12 @@ class TableType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('number')
-            ->add('capacity')
+            ->add('number', null, [
+            'label' => 'Numéros :'
+             ])
+            ->add('capacity', null, [
+            'label' => 'Capacité :'
+            ])
         ;
     }
 

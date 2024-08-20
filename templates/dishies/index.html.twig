@@ -3,39 +3,40 @@
 {% block title %}Dishies index{% endblock %}
 
 {% block body %}
-    <h1>Dishies index</h1>
+    <h1 class='text-center text-4xl my-10'>Plats </h1>
 
-    <table class="table">
+<a href="{{ path('app_dishies_new') }}" class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'>Ajouter un plat</a>
+
+    <table class="table w-fit m-auto mt-10 text-lg">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Price</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Picture</th>
-                <th>actions</th>
+                <th class="border py-2 px-3">Prix</th>
+                <th class="border py-2 px-3">Nom</th>
+                <th class="border py-2 px-3">Description</th>
+                <th class="border py-2 px-3">Catégorie</th>
+                <th class="border py-2 px-3">Image</th>
             </tr>
         </thead>
         <tbody>
         {% for dishy in dishies %}
             <tr>
-                <td>{{ dishy.id }}</td>
-                <td>{{ dishy.price }}</td>
-                <td>{{ dishy.title }}</td>
-                <td>{{ dishy.description }}</td>
-                <td><img width=200px src="{{ dishy.picture }}" alt=""></td>
-                <td>
-                    <a href="{{ path('app_dishies_show', {'id': dishy.id}) }}">show</a>
-                    <a href="{{ path('app_dishies_edit', {'id': dishy.id}) }}">edit</a>
+                <td class="border py-2 px-3">{{ dishy.price }}</td>
+                <td class="border py-2 px-3">{{ dishy.title }}</td>
+                <td class="border py-2 px-3">{{ dishy.description }}</td>
+                 <td class="border py-2 px-3">{{ dishy.categories.name }}</td>
+                <td class="border py-2 px-3"><img width=200px src="{{ dishy.picture }}" alt=""></td>
+                <td class="border py-2 px-3">
+                    <a class='mx-1' href="{{ path('app_dishies_edit', {'id': dishy.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class='mx-1'>{{ include('dishies/_delete_form.html.twig') }}</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td class="border py-2 px-3" colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_dishies_new') }}">Create new</a>
+    
 {% endblock %}

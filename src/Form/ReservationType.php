@@ -15,9 +15,12 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('numberPeople')
+            ->add('numberPeople', null, [
+            'label' => 'Nombre de personnes :'
+            ])
             ->add('date', null, [
                 'widget' => 'single_text',
+                'label' => 'Date :'
             ])
             ->add('shift', ChoiceType::class,
             [
@@ -25,14 +28,22 @@ class ReservationType extends AbstractType
                     'Midi' => 'Midi',
                     'Soir' => 'Soir',
                 ],
+                'label' => 'Service :'
             ])
-            ->add('firstname')
-            ->add('lastname')
-            ->add('email')
+            ->add('firstname', null, [
+                'label' => 'Prénom :'
+            ])
+            ->add('lastname', null, [
+                'label' => 'Nom de famille :'
+            ])
+            ->add('email', null, [
+                'label' => 'Email :'
+            ])
             ->add('tables', EntityType::class, [
                 'class' => Table::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+                'label' => 'Tables :'
             ])
         ;
     }

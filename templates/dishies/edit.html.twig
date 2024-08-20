@@ -3,11 +3,10 @@
 {% block title %}Edit Dishies{% endblock %}
 
 {% block body %}
-    <h1>Edit Dishies</h1>
+   <h1 class='text-center text-4xl my-10'>Modifier le Plat</h1>
 
-    {{ include('dishies/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('dishies/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_dishies_index') }}">back to list</a>
+    <a href="{{ path('app_dishies_index') }}" class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'>Retourner à la liste</a>
 
-    {{ include('dishies/_delete_form.html.twig') }}
 {% endblock %}

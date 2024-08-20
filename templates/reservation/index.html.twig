@@ -3,39 +3,36 @@
 {% block title %}Reservation index{% endblock %}
 
 {% block body %}
-    <h1>Reservation index</h1>
+    <h1 class='text-center text-4xl my-10'>Réservations</h1>
 
-    <table class="table">
+    <table class="table w-fit m-auto mt-10 text-lg">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>NumberPeople</th>
-                <th>Date</th>
-                <th>Shift</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-                <th>actions</th>
+                <th class="border py-2 px-3">Nombre de personnes</th>
+                <th class="border py-2 px-3">Date</th>
+                <th class="border py-2 px-3">Service</th>
+                <th class="border py-2 px-3">Prénom</th>
+                <th class="border py-2 px-3">Nom</th>
+                <th class="border py-2 px-3">Email</th>
             </tr>
         </thead>
         <tbody>
         {% for reservation in reservations %}
             <tr>
-                <td>{{ reservation.id }}</td>
-                <td>{{ reservation.numberPeople }}</td>
-                <td>{{ reservation.date ? reservation.date|date('Y-m-d') : '' }}</td>
-                <td>{{ reservation.shift }}</td>
-                <td>{{ reservation.firstname }}</td>
-                <td>{{ reservation.lastname }}</td>
-                <td>{{ reservation.email }}</td>
-                <td>
-                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
-                    {{ include('reservation/_delete_form.html.twig') }}
+                <td class="border py-2 px-3">{{ reservation.numberPeople }}</td>
+                <td class="border py-2 px-3">{{ reservation.date ? reservation.date|date('Y-m-d') : '' }}</td>
+                <td class="border py-2 px-3">{{ reservation.shift }}</td>
+                <td class="border py-2 px-3">{{ reservation.firstname }}</td>
+                <td class="border py-2 px-3">{{ reservation.lastname }}</td>
+                <td class="border py-2 px-3">{{ reservation.email }}</td>
+                <td class="border py-2 px-3">
+                    <a class='mx-1'>{{ include('reservation/_delete_form.html.twig') }}</a>
+
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td class="border py-2 px-3" colspan="8">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

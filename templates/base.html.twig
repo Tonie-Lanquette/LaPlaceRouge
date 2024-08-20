@@ -20,24 +20,24 @@
                 {% if app.request.attributes.get('_route') in ['app_dishies_index','app_dishies_new','app_dishies_show','app_dishies_edit']  %} 
                     <a class="flex bg-white rounded w-full h-full items-center justify-around" href="{{ path('app_dishies_index') }}">Plats</a> 
                 {% else %}
-                    <a class="flex bg-black text-white hover:bg-red-200 hower:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_dishies_index') }}">Plats</a>
+                    <a class="flex bg-black text-white hover:bg-[#E7C3C3] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_dishies_index') }}">Plats</a>
                 {% endif %}
-                {# {% if app.request.attributes.get('_route') in ['app_table_index','app_table_new','app_table_show','app_table_edit']  %}
+                {% if app.request.attributes.get('_route') in ['app_table_index','app_table_new','app_table_show','app_table_edit']  %}
                     <a class="flex bg-white rounded w-full h-full items-center justify-around" href="{{ path('app_table_index') }}">Tables</a> 
                 {% else %}
-                    <a class="flex bg-black text-white hover:bg-red-200 hower:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_table_index') }}">Tables</a> 
-                {% endif %} #}
+                    <a class="flex bg-black text-white hover:bg-[#E7C3C3] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_table_index') }}">Tables</a> 
+                {% endif %}
                 {% if app.request.attributes.get('_route') in ['app_menu_index','app_menu_new','app_menu_show','app_menu_edit']  %} 
                     <a class="flex bg-white  rounded w-full h-full items-center justify-around" href="{{ path('app_menu_index') }}">Menus</a> 
                 {% else %}
-                    <a class="flex bg-black text-white hover:bg-red-200 hower:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_menu_index') }}">Menus</a>
-                {% endif %}
-               {# {% if app.request.attributes.get('_route') in ['app_reservation_index','app_reservation_new','app_reservation_show','app_reservation_edit']  %}
+                    <a class="flex bg-black text-white hover:bg-[#E7C3C3] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_menu_index') }}">Menus</a>
+                {% endif %} 
+                {% if app.request.attributes.get('_route') in ['app_reservation_index','app_reservation_new','app_reservation_show','app_reservation_edit']  %}
                     <a class="flex bg-white  rounded w-full h-full items-center justify-around" href="{{ path('app_reservation_index') }}">Reservations</a> 
                 {% else %}
-                    <a class="flex bg-black text-white hover:bg-red-200 hower:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_reservation_index') }}">Reservations</a> 
-                {% endif %}
-                    <a class="flex  bg-black text-white hover:bg-red-200 hower:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_logout') }}">Déconnexion</a> #}
+                    <a class="flex bg-black text-white hover:bg-[#E7C3C3] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_reservation_index') }}">Reservations</a> 
+                {% endif %}{# 
+                    <a class="flex  bg-black text-white hover:bg-[#E7C3C] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_logout') }}">Déconnexion</a> #}
     {# {% else %} 
         
     {% endif %}  #}
