@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Menu index{% endblock %}
+{% block title %}Menus{% endblock %}
 
 {% block body %}
-    <h1 class='text-center text-4xl my-10'>Menu </h1>
+    <h1 class='text-center text-4xl my-10'>Menus</h1>
 
         <a href="{{ path('app_menu_new') }}" class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'>Ajouter un menu</a>
 
-    <table class="table w-fit m-auto mt-10 text-lg">
+    <table class="table m-auto mt-10 text-lg w-9/12">
         <thead>
             <tr>
                 <th class="border py-2 px-3">Nom</th>
