@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+
+    <div class="flex flex-col w-full justify-evenly items-center ">
+
+        <form class="w-3/6 bg-[#FFF8ED] py-6 px-[10%] rounded-lg drop-shadow-md justify-evenly mt-[10%]" method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connecté en tant que {{ app.user.firstname }} {{ app.user.lastname }} et ne possédez pas les droits requis pour accéder à ce site.   
+                </div> 
+                <a class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl' href="{{ path('app_logout') }}">Déconnexion</a>
+            {% else %}
+
+            <h1 class="flex text-2xl font-bold justify-evenly">Connexion</h1>
+        <div class="flex flex-col my-10">
+            <label class="font-semibold text-block text-xl" for="username">Email :</label>
+            <input class="rounded-lg mt-2 px-4 py-2" type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+        </div>
+
+        <div class="flex flex-col my-10">
+            <label class="font-semibold text-block text-xl" for="password">Mot de passe :</label>
+            <input class="rounded-lg mt-2 px-4 py-2" type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+        </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'type="submit">
+                Connexion
+            </button>
+            {% endif %}
+
+            
+
+            {#
+                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                See https://symfony.com/doc/current/security/remember_me.html
+
+                <div class="checkbox mb-3">
+                    <input type="checkbox" name="_remember_me" id="_remember_me">
+                    <label for="_remember_me">Remember me</label>
+                </div>
+            #}
+
+            
+        </form>
+</div>
+{% endblock %}

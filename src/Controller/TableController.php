@@ -10,8 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/table')]
+#[IsGranted('ROLE_ADMIN')]
 class TableController extends AbstractController
 {
     #[Route('s', name: 'app_table_index', methods: ['GET'])]

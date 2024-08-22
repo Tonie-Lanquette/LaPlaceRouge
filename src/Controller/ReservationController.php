@@ -10,8 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/reservation')]
+#[IsGranted('ROLE_ADMIN')]
 class ReservationController extends AbstractController
 {
     #[Route('s', name: 'app_reservation_index', methods: ['GET'])]
