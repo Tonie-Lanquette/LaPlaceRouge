@@ -25,7 +25,7 @@ class Table
     /**
      * @var Collection<int, reservation>
      */
-    #[ORM\ManyToMany(targetEntity: reservation::class, inversedBy: 'tables')]
+    #[ORM\ManyToMany(targetEntity: Reservation::class, inversedBy: 'tables')]
     private Collection $reservation;
 
     public function __construct()

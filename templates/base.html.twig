@@ -15,13 +15,13 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-        {# {% if is_granted('IS_AUTHENTICATED') %}  #}
+        {% if is_granted('ROLE_ADMIN') %} 
             <header class ="flex w-100 h-24  font-bold ">
                 {% if app.request.attributes.get('_route') in ['app_dishies_index','app_dishies_new','app_dishies_show','app_dishies_edit']  %} 
                     <a class="flex bg-white rounded w-full h-full items-center justify-around" href="{{ path('app_dishies_index') }}">Plats</a> 
                 {% else %}
                     <a class="flex bg-black text-white hover:bg-[#E7C3C3] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_dishies_index') }}">Plats</a>
-                {% endif %}
+                {% endif %} 
                 {% if app.request.attributes.get('_route') in ['app_table_index','app_table_new','app_table_show','app_table_edit']  %}
                     <a class="flex bg-white rounded w-full h-full items-center justify-around" href="{{ path('app_table_index') }}">Tables</a> 
                 {% else %}
@@ -36,11 +36,10 @@
                     <a class="flex bg-white  rounded w-full h-full items-center justify-around" href="{{ path('app_reservation_index') }}">Reservations</a> 
                 {% else %}
                     <a class="flex bg-black text-white hover:bg-[#E7C3C3] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_reservation_index') }}">Reservations</a> 
-                {% endif %}{# 
-                    <a class="flex  bg-black text-white hover:bg-[#E7C3C] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_logout') }}">Déconnexion</a> #}
-    {# {% else %} 
-        
-    {% endif %}  #}
+                {% endif %}
+                    <a class="flex  bg-black text-white hover:bg-[#E7C3C3] hover:text-black rounded w-full h-full items-center justify-around" href="{{ path('app_logout') }}">Déconnexion</a>
+        {% else %}        
+        {% endif %} 
     </header>
     <body>
         {% block body %}{% endblock %}

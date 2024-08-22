@@ -7,5 +7,15 @@
 
     <a href="{{ path('app_dishies_index') }}" class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'>Retourner à la liste</a>
     
-    {{ include('dishies/_form.html.twig') }}
+    <div class="flex flex-col w-full justify-evenly items-center mt-12">
+
+                <div class="w-5/6 py-6 px-10 rounded-lg drop-shadow-md bg-[#FFF8ED]"> 
+                      {{ include('dishies/_form.html.twig') }}
+                </div>
+            
+               
+                
+    </div>
+
+  
 {% endblock %}

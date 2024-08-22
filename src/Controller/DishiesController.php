@@ -3,20 +3,34 @@
 namespace App\Controller;
 
 use App\Entity\Dishies;
+use App\Entity\User;
 use App\Form\DishiesType;
 use App\Repository\DishiesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/dish')]
+#[IsGranted('ROLE_ADMIN')]
 class DishiesController extends AbstractController
 {
     #[Route('ies', name: 'app_dishies_index', methods: ['GET'])]
-    public function index(DishiesRepository $dishiesRepository): Response
+    public function index(DishiesRepository $dishiesRepository, EntityManagerInterface $em, UserPasswordHasherInterface $hasher): Response
     {
+
+    // $user = new User();
+    // $user ->setEmail('email.notadmin@email.com')
+    // ->setFirstname('admin')
+    // ->setLastname('email')
+    // ->setRoles([])
+    // ->setPassword($hasher->hashPassword($user, 'password'));
+    // $em->persist($user);
+    // $em->flush();
+
         return $this->render('dishies/index.html.twig', [
             'dishies' => $dishiesRepository->findAll(),
         ]);
