@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: TableRepository::class)]
 #[ORM\Table(name: '`table`')]
@@ -17,27 +19,31 @@ class Table
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[UniqueEntity('number')]
+    #[Groups(['remaining_table', 'reservation_information'])]
     private ?int $id = null;
 
     #[Assert\Type(type: 'integer', message: 'Le numéro doit être écrit en chiffres.',)]
     #[Assert\NoSuspiciousCharacters]
     #[ORM\Column]
+    #[Groups(['remaining_table', 'reservation_information'])]
     private ?int $number = null;
 
     #[Assert\Type(type: 'integer', message: 'La capacité doit être écrite en chiffres.',)]
     #[Assert\NoSuspiciousCharacters]
     #[ORM\Column(length: 255)]
+    #[Groups(['remaining_table'])]
     private ?string $capacity = null;
 
     /**
-     * @var Collection<int, reservation>
+     * @var Collection<int, Reservation>
      */
     #[ORM\ManyToMany(targetEntity: Reservation::class, inversedBy: 'tables')]
-    private Collection $reservation;
+    private Collection $reservations;
+
 
     public function __construct()
     {
-        $this->reservation = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,25 +76,25 @@ class Table
     }
 
     /**
-     * @return Collection<int, reservation>
+     * @return Collection<int, Reservation>
      */
-    public function getReservation(): Collection
+    public function getReservations(): Collection
     {
-        return $this->reservation;
+        return $this->reservations;
     }
 
-    public function addReservation(reservation $reservation): static
+    public function addReservations(Reservation $reservation): static
     {
-        if (!$this->reservation->contains($reservation)) {
-            $this->reservation->add($reservation);
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
         }
 
         return $this;
     }
 
-    public function removeReservation(reservation $reservation): static
+    public function removeReservations(Reservation $reservation): static
     {
-        $this->reservation->removeElement($reservation);
+        $this->reservations->removeElement($reservation);
 
         return $this;
     }
