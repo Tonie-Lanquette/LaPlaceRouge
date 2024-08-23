@@ -13,12 +13,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TableRepository::class)]
 #[ORM\Table(name: '`table`')]
+#[UniqueEntity('number')]
 class Table
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    #[UniqueEntity('number')]
+    #[ORM\Column] 
     #[Groups(['remaining_table', 'reservation_information'])]
     private ?int $id = null;
 
