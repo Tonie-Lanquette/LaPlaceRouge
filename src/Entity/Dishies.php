@@ -6,8 +6,11 @@ use App\Repository\DishiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DishiesRepository::class)]
+#[UniqueEntity('title')]
 class Dishies
 {
     #[ORM\Id]
@@ -15,30 +18,46 @@ class Dishies
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\Type(type: 'integer', message: 'Le prix doit être écrit en chiffres.',)]
+    #[Assert\Positive(message: "Le prix ne peut pas être négatif.")]
+    #[Assert\NotBlank(message: "Le prix ne peut pas être vide.")]
     #[ORM\Column]
     private ?int $price = null;
 
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\Length(min: 5, minMessage: "Le nom doit faire au minimum 5 caractères.", max: 255, maxMessage: "Le nom doit faire au plus 255 caractères.")]
+    #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\Length(min: 5, minMessage: "La description doit faire au minimum 5 caractères.", max: 255, maxMessage: "La description doit faire au plus 255 caractères.")]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\Url(message: "Le format attendu est un url.")]
+    #[Assert\Length(min: 5, minMessage: "Le lien doit faire au minimum 5 caractères.", max: 255, maxMessage: "Le lien doit faire au plus 255 caractères.")]
+    #[Assert\NotBlank(message: "Le lien ne peut pas être vide.")]
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
-    /**
-     * @var Collection<int, menu>
-     */
-    #[ORM\ManyToMany(targetEntity: menu::class, inversedBy: 'dishies')]
-    private Collection $menu;
-
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\NotBlank(message: "La catégorie ne peut pas être vide.")]
     #[ORM\ManyToOne(inversedBy: 'dishies')]
     private ?categories $categories = null;
 
+    /**
+     * @var Collection<int, Menu>
+     */
+    #[ORM\ManyToMany(targetEntity: Menu::class, mappedBy: 'dishies')]
+    private Collection $menus;
+
     public function __construct()
     {
-        $this->menu = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,30 +113,6 @@ class Dishies
         return $this;
     }
 
-    /**
-     * @return Collection<int, menu>
-     */
-    public function getMenu(): Collection
-    {
-        return $this->menu;
-    }
-
-    public function addMenu(menu $menu): static
-    {
-        if (!$this->menu->contains($menu)) {
-            $this->menu->add($menu);
-        }
-
-        return $this;
-    }
-
-    public function removeMenu(menu $menu): static
-    {
-        $this->menu->removeElement($menu);
-
-        return $this;
-    }
-
     public function getCategories(): ?categories
     {
         return $this->categories;
@@ -126,6 +121,33 @@ class Dishies
     public function setCategories(?categories $categories): static
     {
         $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Menu>
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): static
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus->add($menu);
+            $menu->addDishy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): static
+    {
+        if ($this->menus->removeElement($menu)) {
+            $menu->removeDishy($this);
+        }
 
         return $this;
     }

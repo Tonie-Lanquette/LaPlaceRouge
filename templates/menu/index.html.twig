@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menus{% endblock %}
+
+{% block body %}
+    <h1 class='text-center text-4xl my-10'>Menus</h1>
+
+        <a href="{{ path('app_menu_new') }}" class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'>Ajouter un menu</a>
+
+    <table class="table m-auto mt-10 mb-[10%] text-lg w-9/12">
+        <thead>
+            <tr>
+                <th class="border py-2 px-3">Nom</th>
+                <th class="border py-2 px-3">Prix</th>
+                <th class="border py-2 px-3">Plats</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for menu in menus %}
+            <tr>
+                <td class="border py-2 px-3">{{ menu.name }}</td>
+                <td class="border py-2 px-3">{{ menu.price }} €</td>
+                <td class="border py-2 px-3">
+                    {% for dish in menu.dishies %}
+                        {{ dish.title }}
+                        <br>
+                    {% endfor %}
+                </td>
+                <td class="border py-2 px-3">
+                    <a class='mx-1' href="{{ path('app_menu_edit', {'id': menu.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class='mx-1'>{{ include('menu/_delete_form.html.twig') }}</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td class="border py-2 px-3" colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
