@@ -27,18 +27,19 @@ class Dishies
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
-    /**
-     * @var Collection<int, menu>
-     */
-    #[ORM\ManyToMany(targetEntity: menu::class, inversedBy: 'dishies')]
-    private Collection $menu;
 
     #[ORM\ManyToOne(inversedBy: 'dishies')]
     private ?categories $categories = null;
 
+    /**
+     * @var Collection<int, Menu>
+     */
+    #[ORM\ManyToMany(targetEntity: Menu::class, mappedBy: 'dishies')]
+    private Collection $menus;
+
     public function __construct()
     {
-        $this->menu = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,30 +95,6 @@ class Dishies
         return $this;
     }
 
-    /**
-     * @return Collection<int, menu>
-     */
-    public function getMenu(): Collection
-    {
-        return $this->menu;
-    }
-
-    public function addMenu(menu $menu): static
-    {
-        if (!$this->menu->contains($menu)) {
-            $this->menu->add($menu);
-        }
-
-        return $this;
-    }
-
-    public function removeMenu(menu $menu): static
-    {
-        $this->menu->removeElement($menu);
-
-        return $this;
-    }
-
     public function getCategories(): ?categories
     {
         return $this->categories;
@@ -126,6 +103,33 @@ class Dishies
     public function setCategories(?categories $categories): static
     {
         $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Menu>
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): static
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus->add($menu);
+            $menu->addDishy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): static
+    {
+        if ($this->menus->removeElement($menu)) {
+            $menu->removeDishy($this);
+        }
 
         return $this;
     }

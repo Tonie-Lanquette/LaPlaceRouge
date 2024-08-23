@@ -32,6 +32,7 @@ class Table
     #[ORM\ManyToMany(targetEntity: Reservation::class, inversedBy: 'tables')]
     private Collection $reservations;
 
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();

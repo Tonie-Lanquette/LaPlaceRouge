@@ -24,7 +24,7 @@ class Menu
     /**
      * @var Collection<int, Dishies>
      */
-    #[ORM\ManyToMany(targetEntity: Dishies::class, mappedBy: 'menu')]
+    #[ORM\ManyToMany(targetEntity: Dishies::class, inversedBy: 'menus')]
     private Collection $dishies;
 
     public function __construct()
@@ -73,7 +73,6 @@ class Menu
     {
         if (!$this->dishies->contains($dishy)) {
             $this->dishies->add($dishy);
-            $dishy->addMenu($this);
         }
 
         return $this;
@@ -81,9 +80,7 @@ class Menu
 
     public function removeDishy(Dishies $dishy): static
     {
-        if ($this->dishies->removeElement($dishy)) {
-            $dishy->removeMenu($this);
-        }
+        $this->dishies->removeElement($dishy);
 
         return $this;
     }
