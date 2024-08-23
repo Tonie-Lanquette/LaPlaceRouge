@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -14,30 +15,37 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reservation_information'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['reservation_information'])]
     private ?int $numberPeople = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    #[ORM\Column(length: 50)]
+    #[Groups(['reservation_information'])]
+    private ?string $date = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['reservation_information'])]
     private ?string $shift = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['reservation_information'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['reservation_information'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['reservation_information'])]
     private ?string $email = null;
 
     /**
      * @var Collection<int, Table>
      */
-    #[ORM\ManyToMany(targetEntity: Table::class, mappedBy: 'reservation')]
+    #[ORM\ManyToMany(targetEntity: Table::class, mappedBy: 'reservations')]
     private Collection $tables;
 
     public function __construct()
@@ -62,12 +70,12 @@ class Reservation
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?string
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setDate(string $date): static
     {
         $this->date = $date;
 
@@ -134,7 +142,7 @@ class Reservation
     {
         if (!$this->tables->contains($table)) {
             $this->tables->add($table);
-            $table->addReservation($this);
+            $table->addReservations($this);
         }
 
         return $this;
@@ -143,7 +151,7 @@ class Reservation
     public function removeTable(Table $table): static
     {
         if ($this->tables->removeElement($table)) {
-            $table->removeReservation($this);
+            $table->removeReservations($this);
         }
 
         return $this;
