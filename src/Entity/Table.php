@@ -6,7 +6,10 @@ use App\Repository\TableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: TableRepository::class)]
 #[ORM\Table(name: '`table`')]
@@ -15,13 +18,18 @@ class Table
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[UniqueEntity('number')]
     #[Groups(['remaining_table', 'reservation_information'])]
     private ?int $id = null;
 
+    #[Assert\Type(type: 'integer', message: 'Le numéro doit être écrit en chiffres.',)]
+    #[Assert\NoSuspiciousCharacters]
     #[ORM\Column]
     #[Groups(['remaining_table', 'reservation_information'])]
     private ?int $number = null;
 
+    #[Assert\Type(type: 'integer', message: 'La capacité doit être écrite en chiffres.',)]
+    #[Assert\NoSuspiciousCharacters]
     #[ORM\Column(length: 255)]
     #[Groups(['remaining_table'])]
     private ?string $capacity = null;
