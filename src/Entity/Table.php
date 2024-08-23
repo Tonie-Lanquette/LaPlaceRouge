@@ -28,7 +28,6 @@ class Table
     #[Groups(['remaining_table', 'reservation_information'])]
     private ?int $number = null;
 
-    #[Assert\Type(type: 'integer', message: 'La capacité doit être écrite en chiffres.',)]
     #[Assert\NoSuspiciousCharacters]
     #[ORM\Column(length: 255)]
     #[Groups(['remaining_table'])]

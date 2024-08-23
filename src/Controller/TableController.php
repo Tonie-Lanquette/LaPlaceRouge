@@ -35,6 +35,7 @@ class TableController extends AbstractController
             $entityManager->persist($table);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La table a bien été ajouté à la carte');
             return $this->redirectToRoute('app_table_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -53,6 +54,7 @@ class TableController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'La table a bien été modifié');
             return $this->redirectToRoute('app_table_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -70,6 +72,7 @@ class TableController extends AbstractController
             $entityManager->flush();
         }
 
+        $this->addFlash('success', 'Le plat a bien été supprimé');
         return $this->redirectToRoute('app_table_index', [], Response::HTTP_SEE_OTHER);
     }
 }
