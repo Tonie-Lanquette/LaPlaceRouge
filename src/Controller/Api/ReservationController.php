@@ -54,31 +54,4 @@ class ReservationController extends AbstractController
             return $this->json(['status' => 'error', 'message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
-
-    #[Route('/reservation/api/testarray', name: 'app_test_api')]
-    public function testArray(Request $request, TableRepository $tableRepository): Response
-    {
-        try {
-            $data = json_decode($request->getContent(), true);
-            $date = $data['date'];
-            $shift = $data['shift'];
-            $remainingTables = $this->reservationManager->getRemainingTable($date, $shift);
-
-            $allTablesIds = array_map(function ($table) {
-                return $table->getId();
-            }, $tableRepository->findAll());
-
-            $remainingTablesIds = array_map(function ($table) {
-                return $table->getId();
-            }, $remainingTables);
-
-            $usableTableIds = array_diff($allTablesIds, $remainingTablesIds);
-
-            $usableTables = $tableRepository->findBy(['id' => $usableTableIds]);
-
-            return $this->json(['remaining tables' => $remainingTables[0]], Response::HTTP_OK, [], ['groups' => "remaining_table"]);
-        } catch (Exception $e) {
-            return $this->json(['status' => 'error', 'message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
-    }
 }
