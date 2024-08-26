@@ -6,6 +6,7 @@ use App\Repository\DishiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DishiesRepository::class)]
 class Dishies
@@ -13,22 +14,28 @@ class Dishies
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?int $price = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_dish_all', 'api_menu_all', 'api_dish_picture'])]
     private ?string $picture = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'dishies')]
+    #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?categories $categories = null;
 
     /**

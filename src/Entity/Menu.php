@@ -6,6 +6,7 @@ use App\Repository\MenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MenuRepository::class)]
 class Menu
@@ -13,18 +14,22 @@ class Menu
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_menu_all'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_menu_all'])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups(['api_menu_all'])]
     private ?int $price = null;
 
     /**
      * @var Collection<int, Dishies>
      */
     #[ORM\ManyToMany(targetEntity: Dishies::class, inversedBy: 'menus')]
+    #[Groups(['api_menu_all'])]
     private Collection $dishies;
 
     public function __construct()
