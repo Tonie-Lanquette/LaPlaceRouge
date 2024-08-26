@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DishiesRepository::class)]
-#[UniqueEntity('title')]
+#[UniqueEntity('title', message: 'Ce nom est déjà utilisé')]
 class Dishies
 {
     #[ORM\Id]
@@ -20,7 +20,7 @@ class Dishies
 
     #[Assert\NoSuspiciousCharacters]
     #[Assert\Type(type: 'integer', message: 'Le prix doit être écrit en chiffres.',)]
-    #[Assert\Positive(message: "Le prix ne peut pas être négatif.")]
+    #[Assert\Positive(message: "Le prix ne peut pas être négatif ou égale à zéro.")]
     #[Assert\NotBlank(message: "Le prix ne peut pas être vide.")]
     #[ORM\Column]
     private ?int $price = null;
@@ -44,7 +44,6 @@ class Dishies
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
-    #[Assert\NoSuspiciousCharacters]
     #[Assert\NotBlank(message: "La catégorie ne peut pas être vide.")]
     #[ORM\ManyToOne(inversedBy: 'dishies')]
     private ?categories $categories = null;
