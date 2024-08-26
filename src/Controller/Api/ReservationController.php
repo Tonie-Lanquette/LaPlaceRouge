@@ -64,4 +64,22 @@ class ReservationController extends AbstractController
             return $this->json(['status' => 'error', 'message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
+
+
+    #[Route('/reservation/api/numberPeople', name: 'app_numberPeople_reservation_api')]
+    public function numberPeople(Request $request, ReservationManager $reservationManager): Response
+    {
+
+        try {
+
+            $data = json_decode($request->getContent(), true);
+            $numberPeople = $reservationManager->numberPeople($data);
+
+            return $this->json(['numberPeople' => $numberPeople], Response::HTTP_CREATED);
+            //! Rajouter le mailing en plus d'un message de succes lors de la reservation (flemme atm mais a faire)
+
+        } catch (Exception $e) {
+            return $this->json(['status' => 'error', 'message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
 }
