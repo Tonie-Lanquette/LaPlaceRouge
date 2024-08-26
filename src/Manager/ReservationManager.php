@@ -19,7 +19,7 @@ class ReservationManager
     ) {}
 
 
-    public function newReservation(array $data): void
+    public function newReservation(array $data): Reservation
     {
 
         $firstname = $this->sanitizerManager->sanitize($data["firstname"]);
@@ -51,9 +51,6 @@ class ReservationManager
             }
         }
 
-        var_dump($tableOf4Available);
-        var_dump($tableOf2Available);
-        var_dump($remainingTables);
 
         //* Faire le tri des tables pour n'avoir dans une variable que les tables qui sont disponibles pour le créneau demandé
         $allTablesIds = array_map(function ($table) {
@@ -111,6 +108,8 @@ class ReservationManager
         }
         $this->entityManager->persist($reservation);
         $this->entityManager->flush();
+
+        return $reservation;
     }
 
 

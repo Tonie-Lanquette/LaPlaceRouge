@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
 
 class ReservationController extends AbstractController
 {
@@ -20,13 +23,21 @@ class ReservationController extends AbstractController
 
 
     #[Route('/reservation/api/new', name: 'app_new_reservation_api')]
-    public function newReservation(Request $request, ReservationManager $reservationManager): Response
+    public function newReservation(Request $request, ReservationManager $reservationManager, MailerInterface $mailer): Response
     {
 
         try {
 
             $data = json_decode($request->getContent(), true);
             $reservation = $reservationManager->newReservation($data);
+
+            $email = (new Email())
+                ->from('killian2908@gmail.com')
+                ->to($data["email"])
+                ->subject('Votre reservation')
+                ->text('Confirmation de votre reservation le '. $reservation->getDate() .' au nom de '. $reservation->getLastname(). ' pour le service du '. $reservation->getShift());
+
+            $mailer->send($email);
 
             return $this->json(['status' => 'succes', 'reservation' => $reservation], Response::HTTP_CREATED, [], ['groups' => "reservation_information"]);
             //! Rajouter le mailing en plus d'un message de succes lors de la reservation (flemme atm mais a faire)
