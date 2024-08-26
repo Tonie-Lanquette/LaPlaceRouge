@@ -92,7 +92,7 @@ class ReservationManager
 
         //* boucle a crée pour ajouter le nombre de table necessaire et qui ne sont pas utilisées
 
-        
+
         foreach ($usableTables as $table) {
 
             if ($tableOf4Needed > 0 && $table->getCapacity() === 4) {
