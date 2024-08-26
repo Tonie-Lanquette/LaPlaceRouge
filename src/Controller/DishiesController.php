@@ -16,6 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
+
 #[Route('/dish')]
 #[IsGranted('ROLE_ADMIN')]
 class DishiesController extends AbstractController
@@ -39,7 +40,7 @@ class DishiesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_dishies_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $dishy = new Dishies();
         $form = $this->createForm(DishiesType::class, $dishy);
@@ -48,6 +49,14 @@ class DishiesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($dishy);
             $entityManager->flush();
+
+            $email = (new Email())
+            ->from('laPlaceRouge@example.com')
+            ->to('visiteur@example.com')
+            ->subject('Reservation')
+            ->text('Merci d\'avoir réservé pour le (variable date) au restaurant \'La Place Rouge\' à adresse');
+
+            $mailer->send($email);
 
             $this->addFlash('success', 'Le plat a bien été ajouté à la carte');
             return $this->redirectToRoute('app_dishies_index', [], Response::HTTP_SEE_OTHER);
