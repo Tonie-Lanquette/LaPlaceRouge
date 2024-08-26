@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class ReservationController extends AbstractController
 {
@@ -20,7 +22,7 @@ class ReservationController extends AbstractController
 
 
     #[Route('/reservation/api/new', name: 'app_new_reservation_api')]
-    public function newReservation(Request $request, ReservationManager $reservationManager): Response
+    public function newReservation(Request $request, ReservationManager $reservationManager, MailerInterface $mailer): Response
     {
 
         try {
@@ -30,6 +32,14 @@ class ReservationController extends AbstractController
 
             return $this->json(['status' => 'succes', 'reservation' => $reservation], Response::HTTP_CREATED, [], ['groups' => "reservation_information"]);
             //! Rajouter le mailing en plus d'un message de succes lors de la reservation (flemme atm mais a faire)
+            // !!!!mailing ajouter a tester
+            $email = (new Email())
+            ->from('laPlaceRouge@example.com')
+            ->to('visiteur@example.com')
+            ->subject('Reservation')
+            ->text('Merci d\'avoir réservé pour le (variable date) au restaurant \'La Place Rouge\' à adresse');
+        
+            $mailer->send($email);
 
         } catch (Exception $e) {
             return $this->json(['status' => 'error', 'message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
