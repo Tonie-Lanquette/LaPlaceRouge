@@ -7,6 +7,12 @@
 
         <a href="{{ path('app_menu_new') }}" class='bg-[#DDBF93] py-2 px-3 ml-[70%] hover:bg-[#FFECEC] rounded-xl'>Ajouter un menu</a>
 
+{% for message in app.flashes('success') %}
+  <div class="text-green-700 p-2 bg-green-200 rounded-md w-fit ml-[15%]">
+    {{ message | join('. <br>')}}
+  </div>
+{% endfor %}
+
     <table class="table m-auto mt-10 mb-[10%] text-lg w-9/12">
         <thead>
             <tr>

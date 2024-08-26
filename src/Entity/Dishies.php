@@ -7,8 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: DishiesRepository::class)]
+#[UniqueEntity('title', message: 'Ce nom est déjà utilisé')]
 class Dishies
 {
     #[ORM\Id]
@@ -17,23 +21,37 @@ class Dishies
     #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?int $id = null;
 
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\Type(type: 'integer', message: 'Le prix doit être écrit en chiffres.',)]
+    #[Assert\Positive(message: "Le prix ne peut pas être négatif ou égale à zéro.")]
+    #[Assert\NotBlank(message: "Le prix ne peut pas être vide.")]
     #[ORM\Column]
     #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?int $price = null;
 
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\Length(min: 5, minMessage: "Le nom doit faire au minimum 5 caractères.", max: 255, maxMessage: "Le nom doit faire au plus 255 caractères.")]
+    #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     #[ORM\Column(length: 255)]
     #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?string $title = null;
 
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\Length(min: 5, minMessage: "La description doit faire au minimum 5 caractères.", max: 255, maxMessage: "La description doit faire au plus 255 caractères.")]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
     #[ORM\Column(length: 255)]
     #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?string $description = null;
 
+    #[Assert\NoSuspiciousCharacters]
+    #[Assert\Url(message: "Le format attendu est un url.")]
+    #[Assert\Length(min: 5, minMessage: "Le lien doit faire au minimum 5 caractères.", max: 255, maxMessage: "Le lien doit faire au plus 255 caractères.")]
+    #[Assert\NotBlank(message: "Le lien ne peut pas être vide.")]
     #[ORM\Column(length: 255)]
     #[Groups(['api_dish_all', 'api_menu_all', 'api_dish_picture'])]
     private ?string $picture = null;
 
-
+    #[Assert\NotBlank(message: "La catégorie ne peut pas être vide.")]
     #[ORM\ManyToOne(inversedBy: 'dishies')]
     #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?categories $categories = null;

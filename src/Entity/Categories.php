@@ -17,6 +17,7 @@ class Categories
     #[Groups(['api_dish_all'])]
     private ?int $id = null;
 
+    
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

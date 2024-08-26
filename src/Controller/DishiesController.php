@@ -23,10 +23,10 @@ class DishiesController extends AbstractController
     {
 
     // $user = new User();
-    // $user ->setEmail('email.notadmin@email.com')
+    // $user ->setEmail('email.admin@email.com')
     // ->setFirstname('admin')
     // ->setLastname('email')
-    // ->setRoles([])
+    // ->setRoles([ROLE_USER])
     // ->setPassword($hasher->hashPassword($user, 'password'));
     // $em->persist($user);
     // $em->flush();
@@ -47,6 +47,7 @@ class DishiesController extends AbstractController
             $entityManager->persist($dishy);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le plat a bien été ajouté à la carte');
             return $this->redirectToRoute('app_dishies_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -65,6 +66,7 @@ class DishiesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le plat a bien été modifié');
             return $this->redirectToRoute('app_dishies_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -82,6 +84,7 @@ class DishiesController extends AbstractController
             $entityManager->flush();
         }
 
+        $this->addFlash('success', 'Le plat a bien été supprimé');
         return $this->redirectToRoute('app_dishies_index', [], Response::HTTP_SEE_OTHER);
     }
 }
