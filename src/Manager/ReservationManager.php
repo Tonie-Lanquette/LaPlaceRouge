@@ -37,7 +37,6 @@ class ReservationManager
         $tableOf2Needed = 0;
 
         //* Requete qui recup toutes les reservations existantes sur les memes dates et shifts-
-
         $remainingTables = $this->getRemainingTable($date, $shift);
 
         //* Boucle pour definir le nombre de table disponible pour les deux types
@@ -93,6 +92,7 @@ class ReservationManager
 
         //* boucle a crée pour ajouter le nombre de table necessaire et qui ne sont pas utilisées
 
+
         foreach ($usableTables as $usableTable) {
             if ($tableOf4Needed > 0 && $usableTable->getCapacity() === '4') {
                 $reservation->addTable($usableTable);
@@ -108,6 +108,45 @@ class ReservationManager
         $this->entityManager->flush();
     }
 
+
+    public function numberPeople(array $data)
+    {
+        $dateReservation = $data['date'];
+        $shiftReservation = $data['shift'];
+
+        $tableOf4Available = 20;
+        $tableOf2Available = 20;
+
+        $remainingTables = $this->getRemainingTable($dateReservation, $shiftReservation);
+
+        foreach ($remainingTables as $tables) {
+            if ($tables->getCapacity() === 4) {
+                $tableOf4Available -= 1;
+            } else if ($tables->getCapacity() === 2) {
+                $tableOf2Available -= 1;
+            }
+        }
+
+        $allTablesIds = array_map(function ($table) {
+            return $table->getId();
+        }, $this->tableRepository->findAll());
+
+        $remainingTablesIds = array_map(function ($table) {
+            return $table->getId();
+        }, $remainingTables);
+
+        $usableTableIds = array_diff($allTablesIds, $remainingTablesIds);
+
+        $usableTables = $this->tableRepository->findBy(['id' => $usableTableIds]);
+
+        $maxPeople = 0;
+
+        foreach ($usableTables as $usableTable) {
+            $maxPeople = $maxPeople + $usableTable->getCapacity();
+        };
+
+        return $maxPeople;
+    }
 
     public function getRemainingTable(string $date, string $shift): array
     {
