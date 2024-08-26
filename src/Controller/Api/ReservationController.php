@@ -55,28 +55,19 @@ class ReservationController extends AbstractController
         }
     }
 
-    #[Route('/reservation/api/testarray', name: 'app_test_api')]
-    public function testArray(Request $request, TableRepository $tableRepository): Response
+
+    #[Route('/reservation/api/numberPeople', name: 'app_numberPeople_reservation_api')]
+    public function numberPeople(Request $request, ReservationManager $reservationManager): Response
     {
+
         try {
+
             $data = json_decode($request->getContent(), true);
-            $date = $data['date'];
-            $shift = $data['shift'];
-            $remainingTables = $this->reservationManager->getRemainingTable($date, $shift);
+            $numberPeople = $reservationManager->numberPeople($data);
 
-            $allTablesIds = array_map(function ($table) {
-                return $table->getId();
-            }, $tableRepository->findAll());
+            return $this->json(['numberPeople' => $numberPeople], Response::HTTP_CREATED);
+            //! Rajouter le mailing en plus d'un message de succes lors de la reservation (flemme atm mais a faire)
 
-            $remainingTablesIds = array_map(function ($table) {
-                return $table->getId();
-            }, $remainingTables);
-
-            $usableTableIds = array_diff($allTablesIds, $remainingTablesIds);
-
-            $usableTables = $tableRepository->findBy(['id' => $usableTableIds]);
-
-            return $this->json(['remaining tables' => $remainingTables[0]], Response::HTTP_OK, [], ['groups' => "remaining_table"]);
         } catch (Exception $e) {
             return $this->json(['status' => 'error', 'message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
