@@ -6,8 +6,10 @@ use App\Repository\MenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 #[ORM\Entity(repositoryClass: MenuRepository::class)]
 #[UniqueEntity('name')]
@@ -16,12 +18,14 @@ class Menu
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_menu_all'])]
     private ?int $id = null;
 
     #[Assert\NoSuspiciousCharacters]
     #[Assert\Length(min: 5, minMessage: "Le nom doit faire au minimum 5 caractères.", max: 255, maxMessage: "Le nom doit faire au plus 255 caractères.")]
     #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     #[ORM\Column(length: 255)]
+    #[Groups(['api_menu_all'])]
     private ?string $name = null;
 
     #[Assert\NoSuspiciousCharacters]
@@ -29,6 +33,7 @@ class Menu
     #[Assert\Positive(message: "Le prix ne peut pas être négatif.")]
     #[Assert\NotBlank(message: "Le prix ne peut pas être vide.")]
     #[ORM\Column]
+    #[Groups(['api_menu_all'])]
     private ?int $price = null;
 
     /**
@@ -37,6 +42,7 @@ class Menu
     #[Assert\NoSuspiciousCharacters]
     #[Assert\NotNull]
     #[ORM\ManyToMany(targetEntity: Dishies::class, inversedBy: 'menus')]
+    #[Groups(['api_menu_all'])]
     private Collection $dishies;
 
     public function __construct()
