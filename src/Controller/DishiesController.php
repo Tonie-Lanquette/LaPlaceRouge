@@ -53,8 +53,8 @@ class DishiesController extends AbstractController
             $email = (new Email())
             ->from('laPlaceRouge@example.com')
             ->to('visiteur@example.com')
-            ->subject('Reservation')
-            ->text('Merci d\'avoir réservé pour le (variable date) au restaurant \'La Place Rouge\' à adresse');
+            ->subject('palt')
+            ->text('plat');
 
             $mailer->send($email);
 
