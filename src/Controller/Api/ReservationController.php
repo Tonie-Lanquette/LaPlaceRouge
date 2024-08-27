@@ -33,14 +33,13 @@ class ReservationController extends AbstractController
 
             $email = (new Email())
                 ->from('killian2908@gmail.com')
-                ->to($data["email"])
+                ->to($reservation->getEmail())
                 ->subject('Votre reservation')
-                ->text('Confirmation de votre reservation le '. $reservation->getDate() .' au nom de '. $reservation->getLastname(). ' pour le service du '. $reservation->getShift());
+                ->text("Merci d'avoir réservé pour le " . $reservation->getDate() . " au service du " . $reservation->getShift() . " au restaurant 'La Place Rouge à'  ");
 
             $mailer->send($email);
 
             return $this->json(['status' => 'succes', 'reservation' => $reservation], Response::HTTP_CREATED, [], ['groups' => "reservation_information"]);
-            //! Rajouter le mailing en plus d'un message de succes lors de la reservation (flemme atm mais a faire)
 
         } catch (Exception $e) {
             return $this->json(['status' => 'error', 'message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);

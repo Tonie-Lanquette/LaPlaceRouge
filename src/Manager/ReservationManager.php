@@ -79,9 +79,16 @@ class ReservationManager
             $tableOf2Needed += 1;
         }
 
+        //* S'il reste des personnes a traiter, alors il ne restait pas asser de table
+        if ($numberPeople > 0 ) {
+            throw new \Exception("Pas assez de table disponible pour cette date et ce créneau.");
+        }
+
         if ($numberPeople < 0) {
             $numberPeople = 0;
         }
+
+
 
         $reservation = new Reservation;
 
