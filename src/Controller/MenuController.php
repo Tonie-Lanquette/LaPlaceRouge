@@ -19,7 +19,7 @@ class MenuController extends AbstractController
     #[Route('/', name: 'app_menu_index', methods: ['GET'])]
     public function index(MenuRepository $menuRepository): Response
     {
-        $menus = $menuRepository->findAll();
+        $menus = $menuRepository->getAllMenus();
 
         foreach ($menus as $menu) {
             $menu->getDishies()->toArray();
