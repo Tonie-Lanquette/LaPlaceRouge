@@ -43,6 +43,7 @@ class MenuController extends AbstractController
             $entityManager->persist($menu);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le menu a bien été ajouté à la carte');
             return $this->redirectToRoute('app_menu_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -62,6 +63,7 @@ class MenuController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le menu a bien été modifié');
             return $this->redirectToRoute('app_menu_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -79,6 +81,7 @@ class MenuController extends AbstractController
             $entityManager->flush();
         }
 
+        $this->addFlash('success', 'Le menu a bien été supprimé');
         return $this->redirectToRoute('app_menu_index', [], Response::HTTP_SEE_OTHER);
     }
 }
