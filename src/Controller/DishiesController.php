@@ -25,14 +25,14 @@ class DishiesController extends AbstractController
     public function index(DishiesRepository $dishiesRepository, EntityManagerInterface $em, UserPasswordHasherInterface $hasher): Response
     {
 
-    // $user = new User();
-    // $user ->setEmail('email.admin@email.com')
-    // ->setFirstname('admin')
-    // ->setLastname('email')
-    // ->setRoles([ROLE_USER])
-    // ->setPassword($hasher->hashPassword($user, 'password'));
-    // $em->persist($user);
-    // $em->flush();
+        // $user = new User();
+        // $user->setEmail('email.admin@email.com')
+        //     ->setFirstname('admin')
+        //     ->setLastname('email')
+        //     ->setRoles(['ROLE_ADMIN'])
+        //     ->setPassword($hasher->hashPassword($user, 'password'));
+        // $em->persist($user);
+        // $em->flush();
 
         return $this->render('dishies/index.html.twig', [
             'dishies' => $dishiesRepository->findAll(),
@@ -90,7 +90,7 @@ class DishiesController extends AbstractController
     #[Route('/{id}', name: 'app_dishies_delete', methods: ['POST'])]
     public function delete(Request $request, Dishies $dishy, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$dishy->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $dishy->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($dishy);
             $entityManager->flush();
         }
