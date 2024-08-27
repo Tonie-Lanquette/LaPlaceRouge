@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Entity\Reservation;
-use App\Entity\Table;
 use App\Manager\SanitizerManager;
 use App\Repository\ReservationRepository;
 use App\Repository\TableRepository;
@@ -20,7 +19,7 @@ class ReservationManager
     ) {}
 
 
-    public function newReservation(array $data): void
+    public function newReservation(array $data): Reservation
     {
 
         $firstname = $this->sanitizerManager->sanitize($data["firstname"]);
@@ -29,10 +28,11 @@ class ReservationManager
         $date = $data["date"];
         $shift = $data["shift"];
         $numberPeople = $data["numberPeople"];
+        $numberPeople2 = $data["numberPeople"];
 
-        $tableOf4Available = 20;
-        $tableOf2Available = 20;
 
+        $tableOf4Available = count($this->tableRepository->findBy(["capacity" => "4"]));
+        $tableOf2Available = count($this->tableRepository->findBy(["capacity" => "2"]));
         $tableOf4Needed = 0;
         $tableOf2Needed = 0;
 
@@ -41,9 +41,11 @@ class ReservationManager
 
         //* Boucle pour definir le nombre de table disponible pour les deux types
         foreach ($remainingTables as $tables) {
-            if ($tables->getCapacity() === 4) {
+            if ($tables->getCapacity() == 4) {
                 $tableOf4Available -= 1;
-            } else if ($tables->getCapacity() === 2) {
+            }
+
+            if ($tables->getCapacity() == 2) {
                 $tableOf2Available -= 1;
             }
         }
@@ -62,23 +64,30 @@ class ReservationManager
 
         $usableTables = $this->tableRepository->findBy(['id' => $usableTableIds]);
 
-
-
         //*Nb de table de 4 necessaire
-        while ($numberPeople >= 3 && $tableOf4Available > 0) {
+        while ($numberPeople >= 3 && $tableOf4Available > 0 && $tableOf4Needed <= 20) {
             $numberPeople -= 4;
+            $tableOf4Available -= 1;
             $tableOf4Needed += 1;
         }
 
         //*Nb de table de 2 necessaire
-        while ($numberPeople >= 1 && $tableOf2Available > 0) {
+        while ($numberPeople >= 1 && $tableOf2Available > 0 && $tableOf2Needed <= 20) {
             $numberPeople -= 2;
+            $tableOf2Available -= 1;
             $tableOf2Needed += 1;
+        }
+
+        //* S'il reste des personnes a traiter, alors il ne restait pas asser de table
+        if ($numberPeople > 0 ) {
+            throw new \Exception("Pas assez de table disponible pour cette date et ce créneau.");
         }
 
         if ($numberPeople < 0) {
             $numberPeople = 0;
         }
+
+
 
         $reservation = new Reservation;
 
@@ -87,25 +96,27 @@ class ReservationManager
         $reservation->setLastname($lastname);
         $reservation->setEmail($email);
         $reservation->setDate($date);
-        $reservation->setNumberPeople($numberPeople);
+        $reservation->setNumberPeople($numberPeople2);
         $reservation->setShift($shift);
 
         //* boucle a crée pour ajouter le nombre de table necessaire et qui ne sont pas utilisées
 
 
         foreach ($usableTables as $usableTable) {
-            if ($tableOf4Needed > 0 && $usableTable->getCapacity() === '4') {
+            if ($tableOf4Needed > 0 && $usableTable->getCapacity() == 4) {
                 $reservation->addTable($usableTable);
                 $tableOf4Needed -= 1;
             }
 
-            if ($tableOf2Needed > 0 && $usableTable->getCapacity() === '2') {
+            if ($tableOf2Needed > 0 && $usableTable->getCapacity() == 2) {
                 $reservation->addTable($usableTable);
                 $tableOf2Needed -= 1;
             }
         }
         $this->entityManager->persist($reservation);
         $this->entityManager->flush();
+
+        return $reservation;
     }
 
 
