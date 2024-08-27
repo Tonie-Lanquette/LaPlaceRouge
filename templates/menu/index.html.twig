@@ -13,7 +13,7 @@
   </div>
 {% endfor %}
 
-    <table class="table m-auto mt-10 mb-[10%] text-lg w-9/12">
+    <table class="table m-auto mt-10 mb-[10%] text-lg w-9/12 text-center">
         <thead>
             <tr>
                 <th class="border py-2 px-3">Nom</th>
@@ -29,13 +29,13 @@
                 <td class="border py-2 px-3">{{ menu.price }} €</td>
                 <td class="border py-2 px-3">
                     {% for dish in menu.dishies %}
-                        {{ dish.title }}
-                        <br>
+                        {{ dish.title }}{% if not loop.last %}<br>{% endif %}
                     {% endfor %}
                 </td>
-                <td class="border py-2 px-3">
-                    <a class='mx-1' href="{{ path('app_menu_edit', {'id': menu.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class='mx-1'>{{ include('menu/_delete_form.html.twig') }}</a>
+                <td class="border py-2 px-3 text-center align-middle">
+                    <a class='mx-1 block m-auto' href="{{ path('app_menu_edit', {'id': menu.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <br>
+                    <a class='mx-1 block m-auto'>{{ include('menu/_delete_form.html.twig') }}</a>
 
                 </td>
             </tr>
