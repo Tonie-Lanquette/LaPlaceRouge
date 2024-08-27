@@ -14,10 +14,10 @@ class Categories
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['api_dish_all'])]
+    #[Groups(['api_dish_all', 'api_menu_all'])]
     private ?int $id = null;
 
-    
+
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

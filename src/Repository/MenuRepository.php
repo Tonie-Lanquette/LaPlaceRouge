@@ -31,13 +31,15 @@ class MenuRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Menu
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getAllMenus(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m')
+            ->addSelect('p')
+            ->join('m.dishies', 'p')
+            ->join('p.categories', 'c')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

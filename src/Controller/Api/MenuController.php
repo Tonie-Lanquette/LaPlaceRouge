@@ -13,7 +13,7 @@ class MenuController extends AbstractController
     #[Route('/all', name: 'all', methods: ['GET'])]
     public function all(MenuRepository $menuRepository): JsonResponse
     {
-        $menu = $menuRepository->findAll();
+        $menu = $menuRepository->getAllMenus();
         return $this->json($menu, 200, context: ['groups' => 'api_menu_all']);
     }
 }
