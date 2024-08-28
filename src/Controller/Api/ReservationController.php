@@ -14,7 +14,7 @@ use Symfony\Component\Mime\Email;
 class ReservationController extends AbstractController
 {
 
-    #[Route('/reservation/api/new', name: 'app_new_reservation_api')]
+    #[Route('/api/reservation/new', name: 'app_new_reservation_api')]
     public function newReservation(Request $request, ReservationManager $reservationManager, MailerInterface $mailer): Response
     {
 
@@ -37,7 +37,7 @@ class ReservationController extends AbstractController
         }
     }
 
-    #[Route('/reservation/api/table', name: 'app_table_api')]
+    #[Route('/api/reservation/table', name: 'app_table_api')]
     public function testTable(Request $request, ReservationManager $reservationManager): Response
     {
 
@@ -57,7 +57,7 @@ class ReservationController extends AbstractController
     }
 
 
-    #[Route('/reservation/api/numberPeople', name: 'app_numberPeople_reservation_api')]
+    #[Route('/api/reservation/numberPeople', name: 'app_numberPeople_reservation_api')]
     public function numberPeople(Request $request, ReservationManager $reservationManager): Response
     {
 
