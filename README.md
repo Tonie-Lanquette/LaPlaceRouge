@@ -47,4 +47,6 @@ symfony console cache:warmup --env=prod`
 
 8. `Créer le fichier nginx.conf et modifier les informations selon l'apprenant`
 
+9. `Déployer l'application sur FileZilla`
+
 
